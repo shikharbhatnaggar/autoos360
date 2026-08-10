@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="max-w-sm mx-auto mt-16 bg-white p-8 rounded-lg shadow">
-    <h1 class="text-xl font-semibold mb-6 text-center">Vehicle Inventory — Login</h1>
+    <h1 class="text-xl font-semibold mb-6 text-center">AutoOS360 — Login</h1>
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
         <div>
