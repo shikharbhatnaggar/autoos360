@@ -7,9 +7,9 @@
     Purchase Net Rate: ₹{{ number_format($vehicle->purchase->net_rate, 2) }} — this is the cost basis used for Profit/Loss.
 </div>
 
-<form method="POST" action="{{ route('vehicles.sale.store', $vehicle) }}" x-data="saleForm({{ $vehicle->purchase->net_rate }})" class="bg-white rounded-lg shadow p-6 space-y-4">
+<form method="POST" action="{{ route('vehicles.sale.store', $vehicle) }}" x-data="saleForm({{ $vehicle->purchase->net_rate }})" class="bg-white rounded-lg shadow p-4 space-y-4 sm:p-6">
     @csrf
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
             <label class="block text-xs text-gray-500 mb-1">Purchaser Name</label>
             <input name="purchaser_name" required class="w-full border rounded px-3 py-2 text-sm">
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 border-t pt-4">
+    <div class="grid grid-cols-1 gap-4 border-t pt-4 sm:grid-cols-2">
         <div>
             <label class="block text-xs text-gray-500 mb-1">Sale Rate</label>
             <input type="number" step="0.01" name="sale_rate" x-model.number="saleRate" required class="w-full border rounded px-3 py-2 text-sm">

@@ -1,19 +1,22 @@
-<header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+<header class="h-16 shrink-0 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6">
 
     <!-- Left -->
-    <div class="flex items-center gap-6">
+    <div class="flex min-w-0 items-center gap-3 sm:gap-6">
 
-        <!-- Mobile menu button (future use) -->
+        <!-- Mobile menu button -->
         <button
-            class="lg:hidden text-gray-500 hover:text-gray-700">
+            type="button"
+            @click="sidebarOpen = true"
+            class="lg:hidden text-gray-500 hover:text-gray-700"
+            aria-label="Open sidebar">
 
             <x-heroicon-o-bars-3 class="w-6 h-6"/>
 
         </button>
 
-        <div>
+        <div class="min-w-0">
 
-            <h1 class="text-xl font-semibold text-gray-800">
+            <h1 class="truncate text-lg font-semibold text-gray-800 sm:text-xl">
 
                 @yield('page-title','Dashboard')
 
@@ -30,7 +33,7 @@
     </div>
 
     <!-- Right -->
-    <div class="flex items-center gap-4">
+    <div class="flex shrink-0 items-center gap-2 sm:gap-4">
 
         <!-- Search -->
         <!-- <div class="hidden md:flex items-center">

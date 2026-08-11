@@ -3,6 +3,7 @@
     'value',
     'icon' => null,
     'color' => 'blue',
+    'valueClass' => 'text-2xl',
 ])
 
 @php
@@ -16,9 +17,9 @@ $colors = [
 $badge = $colors[$color] ?? $colors['blue'];
 @endphp
 
-<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-6">
 
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between gap-3">
 
         <div>
 
@@ -28,11 +29,12 @@ $badge = $colors[$color] ?? $colors['blue'];
 
             </p>
 
-            <h2 class="mt-2 text-3xl font-bold text-gray-800">
+            <h2 class="mt-2 {{ $valueClass }} font-bold text-gray-800">
 
                 {{ $value }}
-
+                
             </h2>
+            
 
         </div>
 

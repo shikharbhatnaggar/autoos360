@@ -1,40 +1,123 @@
 @extends('layouts.app')
-@section('content')
-<h1 class="text-2xl font-semibold mb-6">Add Branch</h1>
 
-<form method="POST" action="{{ route('branches.store') }}" class="space-y-6">
+@section('page-title', 'Branch')
+
+@section('content')
+
+<!-- <x-section-header
+    title="Add Branch"
+    subtitle="Create a new branch location for your organization"
+/> -->
+
+<form
+    method="POST"
+    action="{{ route('branches.store') }}"
+    class="space-y-6"
+>
     @csrf
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="font-semibold mb-4 text-slate-700">Branch Details</h2>
-        <div class="grid grid-cols-2 gap-4">
+
+    {{-- ========================================================= --}}
+    {{-- Branch Details --}}
+    {{-- ========================================================= --}}
+
+    <x-card>
+
+        <x-slot:header>
+
             <div>
-                <label class="block text-xs text-gray-500 mb-1">Name</label>
-                <input name="name" required value="{{ old('name') }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                <h2 class="text-base font-semibold text-gray-800">
+                    Branch Details
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    Enter the basic information for the new branch
+                </p>
             </div>
+
+        </x-slot:header>
+
+
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+            {{-- Name --}}
+            <x-input
+                name="name"
+                label="Name"
+                :value="old('name')"
+                required
+            />
+
+
+            {{-- Code --}}
             <div>
-                <label class="block text-xs text-gray-500 mb-1">Code</label>
-                <input name="code" required value="{{ old('code') }}" class="w-full border rounded px-3 py-2 text-sm" placeholder="e.g. HYD-01">
-                @error('code') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-                <p class="text-xs text-gray-400 mt-1">Must be unique. Cannot be changed after the branch is created.</p>
+
+                <label
+                    for="code"
+                    class="mb-2 block text-sm font-medium text-gray-700"
+                >
+                    Code
+                </label>
+
+                <x-input
+                    name="code"
+                    :value="old('code')"
+                    placeholder="e.g. HYD-01"
+                    required
+                />
+
+                <p class="mt-1.5 text-xs text-gray-400">
+                    Must be unique. This code cannot be changed after the branch is created.
+                </p>
+
             </div>
-            <div>
-                <label class="block text-xs text-gray-500 mb-1">Phone</label>
-                <input name="phone" value="{{ old('phone') }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('phone') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
-            <div>
-                <label class="block text-xs text-gray-500 mb-1">Address</label>
-                <input name="address" value="{{ old('address') }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('address') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
+
+
+            {{-- Phone --}}
+            <x-input
+                name="phone"
+                label="Phone"
+                :value="old('phone')"
+            />
+
+
+            {{-- Address --}}
+            <x-input
+                name="address"
+                label="Address"
+                :value="old('address')"
+            />
+
         </div>
+
+    </x-card>
+
+
+    {{-- ========================================================= --}}
+    {{-- Actions --}}
+    {{-- ========================================================= --}}
+
+    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+        <a
+            href="{{ route('branches.index') }}"
+            class="inline-flex items-center justify-center rounded-lg border border-gray-300
+                   bg-white px-5 py-2.5 text-sm font-medium text-gray-700
+                   transition hover:bg-gray-50"
+        >
+            Cancel
+        </a>
+
+        <x-button
+            type="submit"
+            variant="primary"
+            size="md"
+        >
+            Save Branch
+        </x-button>
+
     </div>
 
-    <div class="flex justify-end gap-3">
-        <a href="{{ route('branches.index') }}" class="px-4 py-2 text-sm text-gray-600">Cancel</a>
-        <button class="bg-slate-800 text-white px-5 py-2 rounded text-sm">Save Branch</button>
-    </div>
 </form>
+
 @endsection

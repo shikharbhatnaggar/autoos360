@@ -1,21 +1,53 @@
-<aside class="w-64 bg-slate-900 text-slate-300 flex flex-col">
+{{-- Mobile overlay backdrop --}}
+<div
+    x-show="sidebarOpen"
+    x-cloak
+    x-transition:enter="transition-opacity ease-linear duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-linear duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="sidebarOpen = false"
+    class="fixed inset-0 z-40 bg-slate-900/50 lg:hidden"
+    aria-hidden="true"
+></div>
+
+<aside
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col overflow-y-auto bg-slate-900 text-slate-300 transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:translate-x-0">
 
     <!-- Logo -->
-    <div class="h-16 flex items-center px-6 border-b border-slate-800">
+    <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-800 px-6">
 
-        <div class="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
-            M
+        <div class="flex items-center">
+
+            <div class="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
+                M
+            </div>
+
+            <div class="ml-3">
+                <h1 class="text-white font-semibold">
+                    AutoOS360
+                </h1>
+
+                <p class="text-xs text-slate-400">
+                    Vehicle Inventory
+                </p>
+            </div>
+
         </div>
 
-        <div class="ml-3">
-            <h1 class="text-white font-semibold">
-                AutoOS360
-            </h1>
+        {{-- Close button (mobile only) --}}
+        <button
+            type="button"
+            @click="sidebarOpen = false"
+            class="text-slate-400 transition hover:text-white lg:hidden"
+            aria-label="Close sidebar">
 
-            <p class="text-xs text-slate-400">
-                Vehicle Inventory
-            </p>
-        </div>
+            <x-heroicon-o-x-mark class="h-6 w-6"/>
+
+        </button>
 
     </div>
 
@@ -208,7 +240,8 @@
 
             <x-heroicon-o-chevron-up
                 class="h-5 w-5 text-slate-400 transition"
-                ::class="{ 'rotate-180': open }"/>
+                ::class="{ 'rotate-180': open }"
+            />    
 
         </button>
 

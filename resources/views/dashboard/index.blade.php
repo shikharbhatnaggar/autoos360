@@ -1,174 +1,363 @@
 @extends('layouts.app')
+
 @section('page-title', 'Dashboard')
+
 @section('content')
 
-<!-- <x-section-header
-    title="Dashboard"
-    subtitle="Business overview"/> -->
+<div class="space-y-6">
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {{-- ============================================================
+        PRIMARY STATISTICS
+    ============================================================= --}}
 
-    <x-stat-card
-        title="In Stock"
-        :value="$inStockCount"
-        color="blue">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
 
-        <x-slot:icon>
-            <x-heroicon-o-truck class="w-6 h-6"/>
-        </x-slot:icon>
-
-    </x-stat-card>
-
-    <x-stat-card
-        title="Sold This Month"
-        :value="$soldThisMonthCount"
-        color="green">
-
-        <x-slot:icon>
-            <x-heroicon-o-banknotes class="w-6 h-6"/>
-        </x-slot:icon>
-
-    </x-stat-card>
-
-    <x-stat-card
-        title="Profit"
-        :value="'₹'.number_format($monthProfit)"
-        color="{{ $monthProfit >= 0 ? 'green' : 'red' }}">
-
-        <x-slot:icon>
-            <x-heroicon-o-chart-bar class="w-6 h-6"/>
-        </x-slot:icon>
-
-    </x-stat-card>
-
-</div>
+        {{-- Available Vehicles --}}
+        <x-stat-card
+            title="Available Vehicles"
+            :value="number_format($inStockCount)"
+            valueClass="text-xl"
+        >
+            <x-slot:icon>
+                <x-heroicon-o-truck class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
 
 
-<x-card class="mt-6">
+        {{-- Total Purchase --}}
+        <x-stat-card
+            title="Total Purchase"
+            :value="'₹' . number_format($totalPurchase)"
+            valueClass="text-xl">
+            <x-slot:icon>
+                <x-heroicon-o-shopping-cart class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
 
-    <x-slot:header>
 
-        <div class="flex items-center justify-between">
+        {{-- Total Sale --}}
+        <x-stat-card
+            title="Total Sale"
+            :value="'₹' . number_format($totalSale)"
+            valueClass="text-xl"
+        >
+            <x-slot:icon>
+                <x-heroicon-o-banknotes class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
 
-            <h2 class="font-semibold">
 
-                Recent Vehicles
+        {{-- Total Expense --}}
+        <x-stat-card
+            title="Total Expenses"
+            :value="'₹' . number_format($totalExpense)"
+            valueClass="text-xl"
+        >
+            <x-slot:icon>
+                <x-heroicon-o-receipt-percent class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
 
-            </h2>
+        <x-stat-card
+            title="Profit"
+            :value="'₹'.number_format($monthProfit)"
+            color="{{ $monthProfit >= 0 ? 'green' : 'red' }}"
+            valueClass="text-xl">
 
-            <a
-                href="{{ route('vehicles.create') }}"
-                class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+            <x-slot:icon>
+                <x-heroicon-o-chart-bar class="w-6 h-6"/>
+            </x-slot:icon>
 
-                Add Purchase
+        </x-stat-card>
+    </div>
 
-            </a>
+
+    {{-- ============================================================
+        BROKER STATISTICS
+    ============================================================= --}}
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+        {{-- Total Brokers --}}
+        <x-stat-card
+            title="Total Brokers"
+            :value="number_format($totalBrokers)"
+        >
+            <x-slot:icon>
+                <x-heroicon-o-user-group class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
+
+
+        {{-- Commission Paid --}}
+        <x-stat-card
+            title="Commission Paid"
+            :value="'₹' . number_format($totalCommission)"
+        >
+            <x-slot:icon>
+                <x-heroicon-o-currency-rupee class="w-6 h-6"/>
+            </x-slot:icon>
+        </x-stat-card>
+
+    </div>
+
+
+    {{-- ============================================================
+        BRANCH STATISTICS
+    ============================================================= --}}
+
+    <x-card>
+
+        <x-slot:header>
+
+            <div>
+                <h2 class="font-semibold text-gray-900">
+                    Branch Statistics
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    Inventory and financial summary by branch
+                </p>
+            </div>
+
+        </x-slot:header>
+
+
+        <div class="overflow-x-auto">
+
+            <table class="min-w-full">
+
+                <thead>
+
+                    <tr class="border-b border-gray-200">
+
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Branch
+                        </th>
+
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Available
+                        </th>
+
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Purchase
+                        </th>
+
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Sale
+                        </th>
+
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Expense
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody class="divide-y divide-gray-100">
+
+                    @forelse($branchStats as $branch)
+
+                        <tr class="transition hover:bg-gray-50">
+
+                            <td class="px-6 py-4 font-medium text-gray-900">
+                                {{ $branch['name'] }}
+                            </td>
+
+                            <td class="px-6 py-4 text-right">
+                                {{ number_format($branch['stock']) }}
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-medium">
+                                ₹{{ number_format($branch['purchase']) }}
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-medium">
+                                ₹{{ number_format($branch['sale']) }}
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-medium">
+                                ₹{{ number_format($branch['expense']) }}
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="px-6 py-8 text-center text-sm text-gray-500">
+
+                                No branch statistics available.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
 
         </div>
 
-    </x-slot:header>
+    </x-card>
 
-    <x-table>
 
-        <x-slot:head>
+    {{-- ============================================================
+        RECENT VEHICLES
+    ============================================================= --}}
 
-            <tr>
+    <x-card>
 
-                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    SR No
-                </th>
+        <x-slot:header>
 
-                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Vehicle No
-                </th>
+            <div class="flex w-full flex-wrap items-center justify-between gap-3">
 
-                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Model
-                </th>
+                <h2 class="font-semibold text-gray-900">
+                    Recent Vehicles
+                </h2>
 
-                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Branch
-                </th>
+                <a
+                    href="{{ route('vehicles.create') }}"
+                    class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
 
-                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Status
-                </th>
+                    Add Purchase
 
-                <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Net Rate
-                </th>
+                </a>
 
-            </tr>
+            </div>
 
-        </x-slot:head>
+        </x-slot:header>
 
-        @foreach($recent as $vehicle)
 
-            <tr class="hover:bg-gray-50 transition">
+        <div class="overflow-x-auto">
 
-                <td class="px-6 py-4">
+            <table class="min-w-full">
 
-                    <a
-                        href="{{ route('vehicles.show',$vehicle) }}"
-                        class="font-medium text-blue-600 hover:text-blue-700">
+                <thead>
 
-                        {{ $vehicle->sr_no }}
+                    <tr>
 
-                    </a>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            SR No
+                        </th>
 
-                </td>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Vehicle No
+                        </th>
 
-                <td class="px-6 py-4">
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Model
+                        </th>
 
-                    {{ $vehicle->vehicle_no }}
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Branch
+                        </th>
 
-                </td>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Status
+                        </th>
 
-                <td class="px-6 py-4">
+                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Net Rate
+                        </th>
 
-                    {{ $vehicle->model }}
+                    </tr>
 
-                </td>
+                </thead>
 
-                <td class="px-6 py-4">
 
-                    {{ $vehicle->branch->name }}
+                <tbody class="divide-y divide-gray-100">
 
-                </td>
+                    @forelse($recent as $vehicle)
 
-                <td class="px-6 py-4">
+                        <tr class="transition hover:bg-gray-50">
 
-                    @if($vehicle->status=='sold')
+                            <td class="px-6 py-4">
 
-                        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                                <a
+                                    href="{{ route('vehicles.show', $vehicle) }}"
+                                    class="font-medium text-blue-600 hover:text-blue-700">
 
-                            Sold
+                                    {{ $vehicle->sr_no }}
 
-                        </span>
+                                </a>
 
-                    @else
+                            </td>
 
-                        <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700">
 
-                            In Stock
+                            <td class="px-6 py-4 text-gray-700">
+                                {{ $vehicle->vehicle_no }}
+                            </td>
 
-                        </span>
 
-                    @endif
+                            <td class="px-6 py-4 text-gray-700">
+                                {{ $vehicle->model }}
+                            </td>
 
-                </td>
 
-                <td class="px-6 py-4 text-right font-semibold">
+                            <td class="px-6 py-4 text-gray-700">
+                                {{ $vehicle->branch->name }}
+                            </td>
 
-                    ₹{{ number_format($vehicle->purchase->net_rate ?? 0) }}
 
-                </td>
+                            <td class="px-6 py-4">
 
-            </tr>
+                                @if($vehicle->status == 'sold')
 
-        @endforeach
+                                    <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                                        Sold
+                                    </span>
 
-    </x-table>
+                                @else
 
-</x-card>
+                                    <span class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700">
+                                        In Stock
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            <td class="px-6 py-4 text-right font-semibold">
+
+                                ₹{{ number_format($vehicle->purchase->net_rate ?? 0) }}
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="px-6 py-8 text-center text-sm text-gray-500">
+
+                                No vehicles found.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </x-card>
+
+</div>
+
 @endsection
