@@ -1,35 +1,103 @@
 @extends('layouts.app')
-@section('content')
-<h1 class="text-2xl font-semibold mb-6">Edit Broker — {{ $broker->name }}</h1>
 
-<form method="POST" action="{{ route('brokers.update', $broker) }}" class="space-y-6">
+@section('page-title', 'Broker')
+
+@section('content')
+
+<!-- <x-section-header
+    title="Edit Broker"
+    subtitle="Update broker contact information"
+/> -->
+
+<form
+    method="POST"
+    action="{{ route('brokers.update', $broker) }}"
+    class="space-y-6"
+>
     @csrf
     @method('PUT')
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="font-semibold mb-4 text-slate-700">Broker Details</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="col-span-2">
-                <label class="block text-xs text-gray-500 mb-1">Name</label>
-                <input name="name" required value="{{ old('name', $broker->name) }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
+    {{-- ========================================================= --}}
+    {{-- Broker Details --}}
+    {{-- ========================================================= --}}
+
+    <x-card>
+
+        <x-slot:header>
+
             <div>
-                <label class="block text-xs text-gray-500 mb-1">Mobile</label>
-                <input name="mobile" value="{{ old('mobile', $broker->mobile) }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('mobile') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                <h2 class="text-base font-semibold text-gray-800">
+                    Broker Details
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    Update the broker's contact information
+                </p>
             </div>
-            <div>
-                <label class="block text-xs text-gray-500 mb-1">Address</label>
-                <input name="address" value="{{ old('address', $broker->address) }}" class="w-full border rounded px-3 py-2 text-sm">
-                @error('address') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+
+        </x-slot:header>
+
+
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+            {{-- Name --}}
+            <div class="md:col-span-2">
+
+                <x-input
+                    name="name"
+                    label="Name"
+                    :value="old('name', $broker->name)"
+                    required
+                />
+
             </div>
+
+
+            {{-- Mobile --}}
+            <x-input
+                name="mobile"
+                label="Mobile"
+                :value="old('mobile', $broker->mobile)"
+            />
+
+
+            {{-- Address --}}
+            <x-input
+                name="address"
+                label="Address"
+                :value="old('address', $broker->address)"
+            />
+
         </div>
+
+    </x-card>
+
+
+    {{-- ========================================================= --}}
+    {{-- Actions --}}
+    {{-- ========================================================= --}}
+
+    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+        <a
+            href="{{ route('brokers.index') }}"
+            class="inline-flex items-center justify-center rounded-lg border border-gray-300
+                   bg-white px-5 py-2.5 text-sm font-medium text-gray-700
+                   transition hover:bg-gray-50"
+        >
+            Cancel
+        </a>
+
+        <x-button
+            type="submit"
+            variant="primary"
+            size="md"
+        >
+            Update Broker
+        </x-button>
+
     </div>
 
-    <div class="flex justify-end gap-3">
-        <a href="{{ route('brokers.index') }}" class="px-4 py-2 text-sm text-gray-600">Cancel</a>
-        <button class="bg-slate-800 text-white px-5 py-2 rounded text-sm">Update Broker</button>
-    </div>
 </form>
+
 @endsection

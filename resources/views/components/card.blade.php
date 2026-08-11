@@ -3,12 +3,12 @@
 ]) }}>
 
     @isset($header)
-        <div class="px-6 py-4 border-b border-gray-200">
+        <div class="px-4 py-3 border-b border-gray-200 sm:px-6 sm:py-4">
             {{ $header }}
         </div>
     @endisset
 
-    <div class="p-6">
+    <div class="p-4 sm:p-6">
         {{ $slot }}
     </div>
 
