@@ -66,7 +66,7 @@ class Vehicle extends Model
 
     public function purchase(): HasOne
     {
-        return $this->hasOne(VehiclePurchase::class);
+        return $this->hasOne(VehiclePurchase::class, 'vehicle_id');
     }
 
     public function sale(): HasOne
@@ -111,5 +111,6 @@ class Vehicle extends Model
     {
         return $this->hasMany(VehicleDocument::class);
     }
+
 }
 
