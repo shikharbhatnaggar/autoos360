@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\BelongsToTenant;
-use App\Models\VehicleDocument;
 
 class Vehicle extends Model
 {
@@ -18,41 +17,7 @@ class Vehicle extends Model
 
     protected $fillable = [
         'branch_id', 'sr_no', 'memo_no', 'vehicle_no', 'model', 'status', 'created_by',
-        // Vehicle Metadata
-        'make_year',
-        'km_driven',
-        'fuel_type',
-        'transmission',
-        'ownership',
-        'engine_cc',
-        'engine_description',
-        'engine_power_ps',
-        'mileage_claimed',
-        'seating_capacity',
-        'fuel_tank',
-        'colour',
-        'insurance_type',
-        'insurance_valid_till',
-        'registration_no',
-        'inspection_highlights',
-        'features',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'make_year' => 'integer',
-            'km_driven' => 'integer',
-            'engine_cc' => 'integer',
-            'engine_power_ps' => 'decimal:2',
-            'mileage_claimed' => 'decimal:2',
-            'seating_capacity' => 'integer',
-            'fuel_tank' => 'decimal:2',
-            'insurance_valid_till' => 'date',
-            'inspection_highlights' => 'array',
-            'features' => 'array',
-        ];
-    }
 
     public function branch(): BelongsTo
     {
@@ -106,10 +71,4 @@ class Vehicle extends Model
 
         return $query->where('branch_id', $user->branch_id);
     }
-
-    public function documents(): HasMany
-    {
-        return $this->hasMany(VehicleDocument::class);
-    }
 }
-

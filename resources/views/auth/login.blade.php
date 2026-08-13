@@ -47,7 +47,7 @@
                     <div>
 
                         <div class="text-2xl font-bold tracking-tight text-white">
-                            Autoos360
+                            AutoOS360
                         </div>
 
                         <div class="text-xs text-slate-300">
@@ -85,7 +85,7 @@
             <div class="hidden lg:block">
 
                 <p class="text-xs text-slate-400">
-                    © {{ date('Y') }} Autoos360. All rights reserved.
+                    © {{ date('Y') }} AutoOS360. All rights reserved.
                 </p>
 
             </div>
@@ -123,7 +123,7 @@
                     <div class="text-left">
 
                         <div class="text-xl font-bold text-slate-900">
-                            Autoos360
+                            AutoOS360
                         </div>
 
                         <div class="text-[11px] text-gray-500">
