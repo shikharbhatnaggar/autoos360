@@ -37,6 +37,7 @@ class VehicleController extends Controller
         $query = Vehicle::query()
             ->where('tenant_id', $tenant->id);
 
+        //for later on purposes
         $branch = null;
 
         // if ($request->filled('branch_id')) {
