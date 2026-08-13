@@ -39,21 +39,21 @@ class VehicleController extends Controller
 
         $branch = null;
 
-        if ($request->filled('branch_id')) {
+        // if ($request->filled('branch_id')) {
 
-            $branch = $tenant->branches()
-                ->where('id', $request->branch_id)
-                ->first();
+        //     $branch = $tenant->branches()
+        //         ->where('id', $request->branch_id)
+        //         ->first();
 
-            if (!$branch) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Branch not found for this tenant.',
-                ], 404);
-            }
+        //     if (!$branch) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Branch not found for this tenant.',
+        //         ], 404);
+        //     }
 
-            $query->where('branch_id', $request->branch_id);
-        }
+        //     $query->where('branch_id', $request->branch_id);
+        // }
         
 
         /*
