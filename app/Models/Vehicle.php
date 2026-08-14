@@ -17,7 +17,7 @@ class Vehicle extends Model
     use BelongsToTenant;
 
     protected $fillable = [
-        'branch_id', 'sr_no', 'memo_no', 'vehicle_no', 'model', 'status', 'created_by',
+        'branch_id', 'sr_no', 'memo_no', 'vehicle_no', 'model', 'body_type', 'vehicle_images', 'status', 'created_by',
         // Vehicle Metadata
         'make_year',
         'km_driven',
@@ -51,6 +51,7 @@ class Vehicle extends Model
             'insurance_valid_till' => 'date',
             'inspection_highlights' => 'array',
             'features' => 'array',
+            'vehicle_images' => 'array',
         ];
     }
 
