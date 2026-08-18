@@ -1,5 +1,10 @@
 <div {{ $attributes->merge([
-    'class' => 'bg-white rounded-xl border border-gray-200 shadow-sm'
+    'class' => 'bg-white rounded-xl border border-gray-200 shadow-sm transition-all
+        duration-200
+        ease-out
+        hover:-translate-y-1
+        hover:shadow-md
+        hover:border-gray-300'
 ]) }}>
 
     @isset($header)

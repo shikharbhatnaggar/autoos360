@@ -17,7 +17,12 @@ $colors = [
 $badge = $colors[$color] ?? $colors['blue'];
 @endphp
 
-<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-6">
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-6 transition-all
+        duration-200
+        ease-out
+        hover:-translate-y-1
+        hover:shadow-md
+        hover:border-gray-300">
 
     <div class="flex items-center justify-between gap-3">
 
