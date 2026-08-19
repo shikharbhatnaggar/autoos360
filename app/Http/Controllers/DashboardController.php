@@ -222,14 +222,35 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $recent = Vehicle::forUser($user)
+        // $recent = Vehicle::forUser($user)
+        //     ->with([
+        //         'branch',
+        //         'purchase',
+        //         'sale',
+        //     ])
+        //     ->latest()
+        //     ->take(10)
+        //     ->get();
+
+        $recentAvailable = Vehicle::forUser($user)
+            ->with([
+                'branch',
+                'purchase',
+            ])
+            ->where('status', 'in_stock')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recentSold = Vehicle::forUser($user)
             ->with([
                 'branch',
                 'purchase',
                 'sale',
             ])
+            ->where('status', 'sold')
             ->latest()
-            ->take(10)
+            ->take(5)
             ->get();
 
         /*
@@ -258,11 +279,14 @@ class DashboardController extends Controller
 
             'branchStats'        => $branchStats,
 
-            'recent'             => $recent,
+            // 'recent'             => $recent,
 
             'netProfitLoss'      => $netProfitLoss,
 
             'soldVehiclesCount'  => $soldVehicles->count(),
+
+            'recentAvailable'    => $recentAvailable,
+            'recentSold'         => $recentSold,
         ]);
     }
 }
