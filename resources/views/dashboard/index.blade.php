@@ -10,66 +10,141 @@
         PRIMARY STATISTICS
     ============================================================= --}}
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-        {{-- Available Vehicles --}}
-        <x-stat-card
-            title="Available Vehicles"
-            :value="number_format($inStockCount)"
-            valueClass="text-xl"
-        >
-            <x-slot:icon>
-                <x-heroicon-o-truck class="w-6 h-6"/>
-            </x-slot:icon>
-        </x-stat-card>
-
-
-        {{-- Total Purchase --}}
-        <x-stat-card
-            title="Total Purchase"
-            :value="'₹' . number_format($totalPurchase)"
-            valueClass="text-xl">
-            <x-slot:icon>
-                <x-heroicon-o-shopping-cart class="w-6 h-6"/>
-            </x-slot:icon>
-        </x-stat-card>
+    {{-- Available Vehicles --}}
+    <x-stat-card
+        title="Available Vehicles"
+        :value="number_format($inStockCount)"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-truck class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
 
 
-        {{-- Total Sale --}}
-        <x-stat-card
-            title="Total Sale"
-            :value="'₹' . number_format($totalSale)"
-            valueClass="text-xl"
-        >
-            <x-slot:icon>
-                <x-heroicon-o-banknotes class="w-6 h-6"/>
-            </x-slot:icon>
-        </x-stat-card>
+    {{-- Total Purchase --}}
+    <x-stat-card
+        title="Total Purchase"
+        :value="'₹' . number_format($totalPurchase)"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-shopping-cart class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
 
 
-        {{-- Total Expense --}}
-        <x-stat-card
-            title="Total Expenses"
-            :value="'₹' . number_format($totalExpense)"
-            valueClass="text-xl"
-        >
-            <x-slot:icon>
-                <x-heroicon-o-receipt-percent class="w-6 h-6"/>
-            </x-slot:icon>
-        </x-stat-card>
+    {{-- Total Sale --}}
+    <x-stat-card
+        title="Total Sale"
+        :value="'₹' . number_format($totalSale)"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-banknotes class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
 
-        <x-stat-card
-            title="Profit"
-            :value="'₹'.number_format($monthProfit)"
-            color="{{ $monthProfit >= 0 ? 'green' : 'red' }}"
-            valueClass="text-xl">
 
-            <x-slot:icon>
-                <x-heroicon-o-chart-bar class="w-6 h-6"/>
-            </x-slot:icon>
+    {{-- Total Expenses --}}
+    <x-stat-card
+        title="Total Expenses"
+        :value="'₹' . number_format($totalExpense)"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-receipt-percent class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
 
-        </x-stat-card>
-    </div>
+
+    {{-- Profit 
+    <x-stat-card
+        title="Profit"
+        :value="'₹' . number_format($monthProfit)"
+        color="{{ $monthProfit >= 0 ? 'green' : 'red' }}"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-chart-bar class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card> --}}
+
+
+    {{-- RC Left --}}
+    <x-stat-card
+        title="RC Left"
+        :value="number_format($rcLeft)"
+        color="{{ $rcLeft > 0 ? 'red' : 'green' }}"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-document-text class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
+
+
+    {{-- Insurance Left --}}
+    <x-stat-card
+        title="Insurance Left"
+        :value="number_format($insuranceLeft)"
+        color="{{ $insuranceLeft > 0 ? 'red' : 'green' }}"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-shield-check class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
+
+
+    {{-- Net Loss 
+    <x-stat-card
+        title="Net Loss"
+        :value="'₹' . number_format($netLoss)"
+        color="{{ $netLoss > 0 ? 'red' : 'green' }}"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-arrow-trending-down class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card> --}}
+
+    {{-- Sold Vehicles --}}
+    <x-stat-card
+        title="Sold Vehicles"
+        :value="number_format($soldVehiclesCount)"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+            <x-heroicon-o-check-badge class="w-6 h-6"/>
+        </x-slot:icon>
+    </x-stat-card>
+
+    {{-- Net Profit / Loss --}}
+    <x-stat-card
+        title="Net Profit / Loss"
+        :value="'₹' . number_format($netProfitLoss)"
+        color="{{ $netProfitLoss >= 0 ? 'green' : 'red' }}"
+        valueClass="text-xl"
+    >
+        <x-slot:icon>
+
+            @if($netProfitLoss >= 0)
+
+                <x-heroicon-o-arrow-trending-up class="w-6 h-6"/>
+
+            @else
+
+                <x-heroicon-o-arrow-trending-down class="w-6 h-6"/>
+
+            @endif
+
+        </x-slot:icon>
+    </x-stat-card>
+
+</div>
 
 
     {{-- ============================================================
@@ -161,7 +236,7 @@
                     @forelse($branchStats as $branch)
 
                         <tr class="transition hover:bg-gray-50">
-
+                        
                             <td class="px-6 py-4 font-medium text-gray-900">
                                 {{ $branch['name'] }}
                             </td>

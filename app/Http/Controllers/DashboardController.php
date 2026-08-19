@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use App\Models\Broker;
+use App\Models\VehicleDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -112,14 +113,72 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         | Broker Commission
         |--------------------------------------------------------------------------
-        |
-        | Broker commission is stored in VehiclePurchase.commission.
-        |
         */
 
         $totalCommission = $allVehicles->sum(function ($vehicle) {
             return (float) ($vehicle->purchase->commission ?? 0);
         });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Net Profit / Loss
+        |--------------------------------------------------------------------------
+        |
+        | Sale - Purchase - Expenses - Commission
+        |
+        */
+
+        $netProfit = $totalSale
+            - $totalPurchase
+            - $totalExpense
+            - $totalCommission;
+
+        // $netLoss = $netProfit < 0 ? abs($netProfit) : 0;
+
+        $totalSoldPurchase = $soldVehicles->sum(function ($vehicle) {
+            return (float) ($vehicle->purchase->purchase_rate ?? 0);
+        });
+
+        $totalSale = $soldVehicles->sum(function ($vehicle) {
+            return (float) ($vehicle->sale->sale_rate ?? 0);
+        });
+
+        // $netProfitLoss = $soldVehicles->sum(function ($vehicle) {
+        //     return (float) ($vehicle->sale->profit_loss ?? 0);
+        // });
+
+        // $netLoss = $netProfitLoss < 0
+        //     ? abs($netProfitLoss)
+        //     : 0;
+
+        $netProfitLoss = $soldVehicles->sum(function ($vehicle) {
+            return (float) ($vehicle->sale->profit_loss ?? 0);
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | RC / Insurance Expiry
+        |--------------------------------------------------------------------------
+        |
+        | Count documents that are:
+        | - Already expired
+        | - Expiring within next 30 days
+        |
+        */
+
+        $expiryLimit = now()->addDays(30)->endOfDay();
+
+        $rcLeft = VehicleDocument::query()
+            ->where('document_type', 'registration_certificate')
+            ->whereNotNull('valid_till')
+            ->where('valid_till', '<=', $expiryLimit)
+            ->count();
+
+        $insuranceLeft = VehicleDocument::query()
+            ->where('document_type', 'insurance')
+            ->whereNotNull('valid_till')
+            ->where('valid_till', '<=', $expiryLimit)
+            ->count();
 
         /*
         |--------------------------------------------------------------------------
@@ -191,9 +250,19 @@ class DashboardController extends Controller
             'totalBrokers'       => $totalBrokers,
             'totalCommission'    => $totalCommission,
 
+            // 'netProfit'          => $netProfit,
+            // 'netLoss'            => $netLoss,
+            
+            'rcLeft'             => $rcLeft,
+            'insuranceLeft'      => $insuranceLeft,
+
             'branchStats'        => $branchStats,
 
             'recent'             => $recent,
+
+            'netProfitLoss'      => $netProfitLoss,
+
+            'soldVehiclesCount'  => $soldVehicles->count(),
         ]);
     }
 }
