@@ -36,6 +36,9 @@ class Vehicle extends Model
         'registration_no',
         'inspection_highlights',
         'features',
+        'is_featured',
+        'is_new_arrival',
+        'is_commercial',
     ];
 
     protected function casts(): array
