@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Tenant;
 use App\Models\Vehicle;
 use App\Models\Branch;
 use App\Models\VehiclePurchase;
+
 
 class VehicleController extends Controller
 {
@@ -37,24 +39,23 @@ class VehicleController extends Controller
         $query = Vehicle::query()
             ->where('tenant_id', $tenant->id);
 
-        //for later on purposes
         $branch = null;
 
-        // if ($request->filled('branch_id')) {
+        if ($request->filled('branch_id')) {
 
-        //     $branch = $tenant->branches()
-        //         ->where('id', $request->branch_id)
-        //         ->first();
+            $branch = $tenant->branches()
+                ->where('id', $request->branch_id)
+                ->first();
 
-        //     if (!$branch) {
-        //         return response()->json([
-        //             'success' => false,
-        //             'message' => 'Branch not found for this tenant.',
-        //         ], 404);
-        //     }
+            if (!$branch) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Branch not found for this tenant.',
+                ], 404);
+            }
 
-        //     $query->where('branch_id', $request->branch_id);
-        // }
+            $query->where('branch_id', $request->branch_id);
+        }
         
 
         /*
@@ -189,4 +190,235 @@ class VehicleController extends Controller
             ],
         ]);
     }
+
+    public function show(Request $request, $tenantUuid, $vehicleId)
+    {
+        $tenant = Tenant::where('uuid', $tenantUuid)->first();
+
+        if (!$tenant) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tenant not found.',
+            ], 404);
+        }
+
+        $query = Vehicle::where('id', $vehicleId)
+            ->where('tenant_id', $tenant->id)
+            ->where('status', 'in_stock');
+
+        // Branch is optional — only filter by it if the caller supplied one.
+        if ($request->filled('branch')) {
+            $query->where('branch_id', $request->query('branch'));
+        }
+
+        $vehicle = $query->first();
+
+        if (!$vehicle) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vehicle not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $vehicle,
+        ]);
+    }
+
+    public function publicbodyTypes(Request $request, string $bodyType = null) // Default to null
+    {
+        $bodyTypes = Vehicle::query()
+            ->selectRaw('body_type, COUNT(*) as total')
+            // Only filters by body_type if the URL parameter is present
+            ->when($bodyType, function ($query, $bodyType) {
+                return $query->where('body_type', $bodyType);
+            })
+            ->groupBy('body_type')
+            ->paginate(10); // Changed from ->get() to fix pagination crash
+
+        return response()->json([
+            'success' => true,
+            'message' => 'bodyTypes fetched successfully.',
+            'filters' => [
+                'requested_body_type' => $bodyType, // Tracks if a filter was used
+            ],
+            'data' => $bodyTypes->items(),
+            'pagination' => [
+                'current_page' => $bodyTypes->currentPage(),
+                'last_page' => $bodyTypes->lastPage(),
+                'per_page' => $bodyTypes->perPage(),
+                'total' => $bodyTypes->total(),
+            ],
+        ]);
+    }
+
+    public function publicbodyTypeDetails(Request $request, string $bodyType = null)
+    {
+        // 1. Eager-load your vehicle purchase sheets data to fix missing price payloads
+        $query = Vehicle::with(['purchase'])->orderBy('created_at', 'desc');
+
+        // 2. Clear out string parameters like "all" or "null" forwarded from JavaScript routing links
+        if ($bodyType === 'all' || $bodyType === 'null' || empty($bodyType)) {
+            $bodyType = null;
+        }
+
+        // 3. Strictly include the where constraint ONLY if a valid body type is requested
+        if ($bodyType) {
+            $query->where('body_type', $bodyType);
+        }
+
+        // Get the last 5 unique dates that contain data for this matching query scope
+        $latestDates = (clone $query)
+                        ->selectRaw('DATE(created_at) as date')
+                        ->groupBy('date')
+                        ->orderBy('date', 'desc')
+                        ->take(5)
+                        ->pluck('date');
+
+        // Count records within those 5 dates for this specific scope context
+        $countForLast5Dates = (clone $query)
+                        ->whereIn(DB::raw('DATE(created_at)'), $latestDates)
+                        ->count();
+
+        // Determine the dynamic pool limits
+        if ($countForLast5Dates < 10) {
+            $limit = 10;
+        } elseif ($countForLast5Dates > 50) {
+            $limit = 50;
+        } else {
+            $limit = $countForLast5Dates;
+        }
+
+        $perPage = (int) $request->input('per_page', 20);
+        
+        // Apply bounds constraints to generate paginated items sets
+        $vehicles = $query->take($limit)->paginate($perPage);
+
+        // 4. Mutate output data rows to map net_rate into a unified price key attribute
+        $vehicles->getCollection()->transform(function ($car) {
+            $car->price = $car->purchase ? (float) $car->purchase->net_rate : 450000.00;
+            return $car;
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Vehicles fetched successfully.',
+            'filters' => [
+                'requested_body_type' => $bodyType, // Returns clean string or null parameter format
+            ],
+            'data' => $vehicles->items(),
+            'pagination' => [
+                'current_page' => $vehicles->currentPage(),
+                'last_page'    => $vehicles->lastPage(),
+                'per_page'     => $vehicles->perPage(),
+                'total'        => $vehicles->total(),
+            ],
+        ]);
+    }
+
+    /**
+     * Fetch Detailed Specific Car Payload via SEO Friendly Slug String
+     */
+    public function publicvehicleDetails(Request $request, string $vehicleslug)
+    {
+        // Extract trailing numerical id from seo string (e.g. 'hyundai-grand-i10-nios-sportz-2022-42' -> 42)
+        $slugSegments = explode('-', $vehicleslug);
+        $vehicleId = end($slugSegments);
+
+        if (!is_numeric($vehicleId)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Malformed vehicle routing identifier format.',
+            ], 400);
+        }
+
+        // Eager-load the purchase record layer alongside your core inventory filters
+        $vehicle = Vehicle::where('id', $vehicleId)
+                    ->where('status', 'in_stock')
+                    ->with(['purchase'])
+                    ->first();
+
+        if (!$vehicle) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vehicle record could not be found within active stock pools.',
+            ], 404);
+        }
+
+        // Inject the final retail rate parameter explicitly as 'price' for the frontend JS engines
+        // Fallback default value applied if no corresponding purchase sheet row exists yet
+        $vehicle->price = $vehicle->purchase ? (float) $vehicle->purchase->net_rate : 450000.00;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Vehicle details fetched successfully.',
+            'data' => $vehicle
+        ]);
+    }
+
+    /**
+     * Fetch Multi-Grid Catalog Listing Feed
+     */
+    public function publicvehicleListing(Request $request, ?string $section = null) 
+    {
+        // Build query with purchase model configurations pre-loaded immediately to avoid N+1 issues
+        $query = Vehicle::with(['purchase'])->orderBy('created_at', 'desc');
+
+        if ($section) {
+            if ($section == 'featured') {
+                $query->where('is_featured', 1);
+            } elseif ($section == 'new_arrivals') {
+                $query->where('is_new_arrival', 1);
+            } elseif ($section == 'commercial') {
+                $query->where('is_commercial', 1);
+            }
+        }
+
+        // 1. Get the last 5 unique dates that contain data
+        $latestDates = Vehicle::selectRaw('DATE(created_at) as date')
+                        ->groupBy('date')
+                        ->orderBy('date', 'desc')
+                        ->take(5)
+                        ->pluck('date');
+
+        // 2. Count records within those 5 dates
+        $countForLast5Dates = Vehicle::whereIn(DB::raw('DATE(created_at)'), $latestDates)->count();
+
+        // 3. Determine the dynamic limit (Cap the absolute maximum pool size)
+        if ($countForLast5Dates < 10) {
+            $limit = 10;
+        } elseif ($countForLast5Dates > 50) {
+            $limit = 50;
+        } else {
+            $limit = $countForLast5Dates;
+        }
+
+        // 4. Apply limit to query pool and paginate safely
+        $perPage = (int) $request->input('per_page', 20);
+        $vehicles = $query->take($limit)->paginate($perPage);
+
+        // 5. Mutate output rows map array to map net_rate into a unified price variable layout
+        $vehicles->getCollection()->transform(function ($car) {
+            $car->price = $car->purchase ? (float) $car->purchase->net_rate : 450000.00;
+            return $car;
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Vehicles fetched successfully.',
+            'filters' => [
+                'section' => $section,
+            ],
+            'data' => $vehicles->items(),
+            'pagination' => [
+                'current_page' => $vehicles->currentPage(),
+                'last_page'    => $vehicles->lastPage(),
+                'per_page'     => $vehicles->perPage(),
+                'total'        => $vehicles->total(),
+            ],
+        ]);
+    }
+
+
 }
