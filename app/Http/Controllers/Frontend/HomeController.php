@@ -29,7 +29,7 @@ class HomeController extends Controller
             ['name' => 'Hatchback',       'art' => 'Hatchback',       'href' => url('/listing?view=all&body=Hatchback'), 'n' => $countsMap['Hatchback'] ?? 0],
             ['name' => 'Sedan',           'art' => 'Sedan',           'href' => url('/listing?view=all&body=Sedan'),     'n' => $countsMap['Sedan'] ?? 0],
             ['name' => 'SUV',             'art' => 'SUV',             'href' => url('/listing?view=all&body=SUV'),       'n' => $countsMap['SUV'] ?? 0],
-            ['name' => 'Mini commercial', 'art' => 'Mini Commercial', 'href' => url('/listing?view=commercial'),         'n' => $countsMap['MUV'] ?? 0],
+            ['name' => 'Mini commercial', 'art' => 'Mini Commercial', 'href' => url('/listing?view=all&section=commercial'),         'n' => $countsMap['MUV'] ?? 0],
             ['name' => 'Electric',        'art' => 'Electric',        'href' => url('/listing?view=all&fuel=Electric'),  'n' => $countsMap['Electric'] ?? 0],
             ['name' => 'All cars',        'art' => 'All',             'href' => url('/listing?view=all'),                'n' => $totalAllCars]
         ];
