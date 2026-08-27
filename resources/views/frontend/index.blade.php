@@ -45,7 +45,7 @@
         <h2 class="sec__title">Start with a body type</h2>
         <p class="sec__sub">Live inventory metric parameters compiled directly out of dealer lots.</p>
       </div>
-      <a class="viewall" href="{{ url('/listing?view=all') }}">Browse all stock 
+      <a class="viewall" href="{{ route('frontend.vehicles.listing', ['view' => 'all']) }}">Browse all stock 
         <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
