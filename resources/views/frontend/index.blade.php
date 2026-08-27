@@ -91,7 +91,7 @@
   <section class="sec">
     <div class="wrap duo">
       <article class="promo promo--sell" id="sell">
-        <div class="promo__art"><img id="promoSell" alt="Car being handed over for sale" width="320" height="200"></div>
+        <div class="promo__art"><img id="promoSell" alt="Car being handed over for sale" width="320" height="200" src="https://cdn.imagin.studio/getImage?customer=img&make=renault&modelFamily=kwid&angle=17&zoomType=fullscreen&fileType=png&width=800&modelYear=2022&paintDescription=red"></div>
         <div class="promo__body">
           <span class="promo__kicker">Sell in 48 hours</span>
           <h3>Sell your car at a price you agree to</h3>
@@ -101,7 +101,7 @@
       </article>
 
       <article class="promo promo--check" id="assess">
-        <div class="promo__art"><img id="promoCheck" alt="Vehicle undergoing inspection" width="320" height="200"></div>
+        <div class="promo__art"><img id="promoCheck" alt="Vehicle undergoing inspection" width="320" height="200" src="https://cdn.imagin.studio/getImage?customer=img&make=kia&modelFamily=sonet&angle=29&zoomType=fullscreen&fileType=png&width=800&modelYear=2019&paintDescription=grey"></div>
         <div class="promo__body">
           <span class="promo__kicker">Free · 45 minutes</span>
           <h3>Free assessment for your vehicle</h3>
