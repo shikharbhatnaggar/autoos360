@@ -184,8 +184,21 @@
 @push('scripts')
 <script>
   // Preservation of legacy touch-slide/rail animations bindings across all rendered blocks
-  document.querySelectorAll('[data-rail]').forEach(window.GS.initRail);
-  document.querySelectorAll('.rail__nav--prev').forEach(function (b) { b.innerHTML = window.GS.icons.chevL; });
-  document.querySelectorAll('.rail__nav--next').forEach(function (b) { b.innerHTML = window.GS.icons.chevR; });
+  // document.querySelectorAll('[data-rail]').forEach(window.GS.initRail);
+  // document.querySelectorAll('.rail__nav--prev').forEach(function (b) { b.innerHTML = window.GS.icons.chevL; });
+  // document.querySelectorAll('.rail__nav--next').forEach(function (b) { b.innerHTML = window.GS.icons.chevR; });
+
+  window.addEventListener('load', function() {
+    if (window.GS && window.GS.initRail) {
+      document.querySelectorAll('[data-rail]').forEach(window.GS.initRail);
+      
+      if (window.GS.icons) {
+        document.querySelectorAll('.rail__nav--prev').forEach(function (b) { b.innerHTML = window.GS.icons.chevL; });
+        document.querySelectorAll('.rail__nav--next').forEach(function (b) { b.innerHTML = window.GS.icons.chevR; });
+      }
+    } else {
+      console.warn('GS library not found.');
+    }
+  });
 </script>
 @endpush
