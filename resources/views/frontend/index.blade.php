@@ -87,6 +87,31 @@
   </div>
 </section>
 
+<!-- 6 · Two promo banners -->
+  <section class="sec">
+    <div class="wrap duo">
+      <article class="promo promo--sell" id="sell">
+        <div class="promo__art"><img id="promoSell" alt="Car being handed over for sale" width="320" height="200"></div>
+        <div class="promo__body">
+          <span class="promo__kicker">Sell in 48 hours</span>
+          <h3>Sell your car at a price you agree to</h3>
+          <p>One inspection, one firm offer, payment the same day it's picked up.</p>
+          <a class="btn btn--primary" href="#">Sell your car</a>
+        </div>
+      </article>
+
+      <article class="promo promo--check" id="assess">
+        <div class="promo__art"><img id="promoCheck" alt="Vehicle undergoing inspection" width="320" height="200"></div>
+        <div class="promo__body">
+          <span class="promo__kicker">Free · 45 minutes</span>
+          <h3>Free assessment for your vehicle</h3>
+          <p>A 200-point check at your home, with a written condition report you keep.</p>
+          <a class="btn btn--primary" href="#">Book free assessment</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
 <!-- 7 · Featured Showroom Carousel Rail Layout -->
 <section class="sec">
   <div class="wrap">
@@ -132,6 +157,28 @@
     </div>
   </div>
 </section>
+
+<!-- 9 · Become partner CTA -->
+  <section class="sec sec--tight" id="partner">
+    <div class="wrap">
+      <div class="partner">
+        <div class="partner__body">
+          <p class="partner__kicker">For dealers &amp; fleet owners</p>
+          <h2>List your stock where buyers already are</h2>
+          <p>Partner dealerships get inspection support, finance tie-ups and a listing feed that syncs with your DMS. No listing fee for the first 90 days.</p>
+          <div class="partner__btns">
+            <a class="btn btn--light" href="{{ route('frontend.pricing') }}">See Pricing</a>
+            <a class="btn btn--outline-light" href="#">Talk to the team</a>
+          </div>
+        </div>
+        <div class="partner__facts">
+          <div class="partner__fact"><b>18 days</b><span>Average time to sell</span></div>
+          <div class="partner__fact"><b>₹0</b><span>Listing fee for 90 days</span></div>
+          <div class="partner__fact"><b>140+</b><span>Dealers already onboard</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 @endsection
 
 @push('scripts')
