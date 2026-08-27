@@ -19,8 +19,7 @@
       <!-- Server-Side Rendered Image Gallery Block -->
       <div class="gallery">
         <div class="gallery__main">
-            $car->display_image = 'https://shikharbhatnaggar.github.io/publicautoos360/'.$primaryImg['path'];
-          <img id="gMain" alt="{{ $vehicle->make_year }} {{ $vehicle->model }}" src="{{ 'https://shikharbhatnaggar.github.io/publicautoos360/'.$vehicle->primary_image_path }}">
+          <img id="gMain" alt="{{ $vehicle->make_year }} {{ $vehicle->model }}" src="{{ $vehicle->primary_image_path }}">
           <div class="gallery__flags">
             @if($vehicle->is_new_arrival)<span class="flag flag--new">New arrival</span>@endif
             @if($vehicle->is_featured)<span class="flag flag--feat">Featured</span>@endif
@@ -34,7 +33,7 @@
                     role="tab" type="button" 
                     data-fullsrc="{{ $img['path'] }}" 
                     title="{{ $img['type'] }} view">
-              <img alt="{{ $img['type'] }} view" loading="lazy" src="{{ 'https://shikharbhatnaggar.github.io/publicautoos360/'.$img['path'] }}">
+              <img alt="{{ $img['type'] }} view" loading="lazy" src="{{ $img['path'] }}">
             </button>
           @endforeach
         </div>
