@@ -75,8 +75,8 @@ class HomeController extends Controller
                 $images = json_decode($images, true) ?? [];
             }
             $primaryImg = collect($images)->firstWhere('is_primary', true) ?? collect($images)->first();
-            $car->display_image = $primaryImg ? url('/storage/' . ($primaryImg['path'] ?? $primaryImg)) : url('/frontend/images/placeholder-car.jpg');
-            // $car->display_image = 'https://shikharbhatnaggar.github.io/publicautoos360/'.$primaryImg['path'];
+            // $car->display_image = $primaryImg ? url('/storage/' . ($primaryImg['path'] ?? $primaryImg)) : url('/frontend/images/placeholder-car.jpg');
+            $car->display_image = 'https://shikharbhatnaggar.github.io/publicautoos360/'.$primaryImg['path'];
             return $car;
         });
     }
