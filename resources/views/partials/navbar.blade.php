@@ -79,8 +79,10 @@
                 class="relative p-2 rounded-lg hover:bg-gray-100">
 
                 <x-heroicon-o-bell class="w-6 h-6 text-gray-600"/>
-                {{-- Uncomment when notifications exist --}}
-                {{-- <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span> --}}
+                
+                @if($newLeadsNotificationCount > 0)
+                    <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                @endif
 
             </button>
 
@@ -88,22 +90,42 @@
                 x-show="open"
                 x-cloak
                 x-transition
-                class="absolute right-0 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800 z-50">
+                class="absolute right-0 mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800 z-50">
 
-                <div class="px-4 py-3 border-b border-gray-200 dark:border-slate-700">
+                <div class="px-4 py-3 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
                     <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                        Notifications
+                        New Leads Received
                     </h3>
+                    @if($newLeadsNotificationCount > 0)
+                        <span class="bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                            {{ $newLeadsNotificationCount }} New
+                        </span>
+                    @endif
                 </div>
 
-                <div class="px-4 py-6 text-center">
-
-                    <x-heroicon-o-bell-slash class="mx-auto h-8 w-8 text-gray-400"/>
-
-                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        No new notifications
-                    </p>
-
+                <div class="max-h-64 overflow-y-auto divide-y divide-gray-100 dark:divide-slate-700">
+                    @forelse($newLeadsNotificationList as $notificationLead)
+                        <a href="#" class="block p-4 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ $notificationLead->name }}
+                                </span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                    Interested in vehicle #{{ $notificationLead->vehicle_id }}
+                                </span>
+                                <span class="text-[10px] text-blue-600 font-medium mt-1">
+                                    {{ $notificationLead->created_at->diffForHumans() }}
+                                </span>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="px-4 py-6 text-center">
+                            <x-heroicon-o-bell-slash class="mx-auto h-8 w-8 text-gray-400"/>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                No new notifications
+                            </p>
+                        </div>
+                    @endforelse
                 </div>
 
             </div>
