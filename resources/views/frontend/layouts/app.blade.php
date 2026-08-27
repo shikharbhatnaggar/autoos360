@@ -43,11 +43,15 @@
           <svg class="nav__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5L6 8.5l4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
         </a>
         <div class="nav__menu">
-          <a href="listing.html?view=new">New arrivals</a>
-          <a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&section=featured">Featured cars</a>
-          <a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&body=Hatchback">Hatchbacks</a>
-          <a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&body=Sedan">Sedans</a>
-          <a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&body=SUV">SUVs</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all']) }}">New arrivals</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'section' => 'featured']) }}">Featured cars</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'Hatchback']) }}">Hatchbacks</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'Sedan']) }}">Sedans</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'SUV']) }}">SUVs</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Electric']) }}">Electric</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Diesel']) }}">Diesel</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'CNG']) }}">CNG</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Petrol']) }}">Petrol</a>
         </div>
       </div>
       <div class="nav__item">
@@ -55,19 +59,19 @@
           <svg class="nav__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5L6 8.5l4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
         </a>
         <div class="nav__menu">
-          <a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&section=commercial">Mini commercial fleet</a>
+          <a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'commercial']) }}">Mini commercial fleet</a>
           <!-- <a href="listing.html?view=commercial&amp;fuel=Diesel">Diesel runners</a>
           <a href="listing.html?view=commercial&amp;fuel=CNG">CNG runners</a> -->
         </div>
       </div>
-      <div class="nav__item"><a class="nav__link" href="https://shikharbhatnaggar.github.io/publicautoos360/sell-your-car.html">Sell your car</a></div>
-      <div class="nav__item"><a class="nav__link" href="https://shikharbhatnaggar.github.io/publicautoos360/request-free-assessment.html">Free assessment</a></div>
-      <div class="nav__item"><a class="nav__link" href="https://shikharbhatnaggar.github.io/publicautoos360/pricing.html">Pricing</a></div>
-      <a class="btn btn--primary btn--sm" href="https://shikharbhatnaggar.github.io/publicautoos360/become-partner.html">Become Partner</a>
+      <div class="nav__item"><a class="nav__link" href="#">Sell your car</a></div>
+      <div class="nav__item"><a class="nav__link" href="#">Free assessment</a></div>
+      <div class="nav__item"><a class="nav__link" href="{{ route('frontend.pricing') }}">Pricing</a></div>
+      <a class="btn btn--primary btn--sm" href="{{ route('frontend.partner.register') }}">Become Partner</a>
     </nav>
 
     <div class="hdr__cta">
-      <a class="btn btn--primary btn--sm" href="https://shikharbhatnaggar.github.io/publicautoos360/become-partner.html">Become Partner</a>
+      <a class="btn btn--primary btn--sm" href="{{ route('frontend.partner.register') }}">Become Partner</a>
     </div>
   </div>
 </header>
@@ -79,7 +83,7 @@
     <footer class="foot">
         <div class="wrap foot__grid">
             <div class="foot__brand">
-            <a class="logo" href="index.html">
+            <a class="logo" href="{{ url('/') }}">
                 <img src="{{ asset('frontend/images/autoos360.png') }}" alt="AutoOS360 — home" width="160" height="60">
             </a>
             <p class="foot__tag">The bridge between<br>a good car and you.</p>
@@ -97,36 +101,45 @@
             <div class="foot__col">
             <h4>Company</h4>
             <ul>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/about-autoos360.html">About us</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/creers.html">Careers</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/offers.html">Offers</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/how-we-inspect.html">Pricing</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/become-partner.html">Become partner</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/contact.html">Contact us</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Offers</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="{{ route('frontend.partner.register') }}">Become partner</a></li>
+                <li><a href="#">Contact us</a></li>
             </ul>
             </div>
 
             <div class="foot__col">
             <h4>Buy &amp; sell</h4>
             <ul>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all">All used cars</a></li>
+                <!-- <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all">All used cars</a></li>
                 <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&section=new">New arrivals</a></li>
                 <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&section=featured">Featured cars</a></li>
                 <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/listing.html?view=all&section=commercial">Mini commercial</a></li>
                 <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/sell-your-car.html">Sell your car</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/request-free-assessment.html">Free assessment</a></li>
+                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/request-free-assessment.html">Free assessment</a></li> -->
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'Hatchback']) }}">Hatchbacks</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'Sedan']) }}">Sedans</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'body' => 'SUV']) }}">SUVs</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Electric']) }}">Electric</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Diesel']) }}">Diesel</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'CNG']) }}">CNG</a></li>
+                <li><a href="{{ route('frontend.vehicles.listing', ['view' => 'all', 'fuel' => 'Petrol']) }}">Petrol</a></li>
+                <li><a href="#">Sell your car</a></li>
+                <li><a href="#">Free assessment</a></li>
             </ul>
             </div>
 
             <div class="foot__col">
             <h4>Help &amp; support</h4>
             <ul>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/faq.html">FAQs</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/finance.html">Finance &amp; EMI</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Finance &amp; EMI</a></li>
                 <!-- <li><a href="#">RC transfer status</a></li> -->
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/warranty-terms.html">Warranty terms</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/privacy-policy.html">Privacy policy</a></li>
-                <li><a href="https://shikharbhatnaggar.github.io/publicautoos360/terms-of-use.html">Terms of use</a></li>
+                <li><a href="#">Warranty terms</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Terms of use</a></li>
             </ul>
             </div>
         </div>
@@ -136,7 +149,7 @@
             <div class="wrap copy__in">
             <p>&copy; <span id="year">{{ date('Y') }} </span> AutoOS360 Private Limited. All rights reserved. | Powered by <a href="https://shiventech.co.in">Shiventech Consulting</a></p>
             <div class="copy__links">
-                <a href="https://shikharbhatnaggar.github.io/publicautoos360/privacy-policy.html">Privacy</a><a href="https://shikharbhatnaggar.github.io/publicautoos360/terms-of-use.html">Terms</a><a href="https://shikharbhatnaggar.github.io/publicautoos360/cookies-policy.html">Cookies</a><a href="https://shikharbhatnaggar.github.io/publicautoos360/sitemap.xml">Sitemap</a>
+                <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a><a href="#">Sitemap</a>
             </div>
             </div>
         </div>
