@@ -11,8 +11,8 @@
       <h1>Find a car that fits your <em>lifestyle</em></h1>
       <p class="hero__sub">Browse fully certified, warranty-backed cars and passenger MUV fleets hosted across premium dealer lots near you.</p>
       <div class="hero__btns">
-        <a class="btn btn--light" href="{{ url('/listing?view=all') }}">Explore all cars</a>
-        <a class="btn btn--outline-light" href="{{ url('/packages') }}">Sell as partner</a>
+        <a class="btn btn--light" href="{{ route('frontend.vehicles.listing', ['view' => 'all']) }}">Explore all cars</a>
+        <a class="btn btn--outline-light" href="{{ route('frontend.partner.register') }}">Sell as partner</a>
       </div>
       <div class="hero__stats">
         <div class="hero__stat"><b id="heroCount">{{ $totalAllCars }}</b><span>Cars Available</span></div>
