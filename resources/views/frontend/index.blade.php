@@ -188,17 +188,46 @@
   // document.querySelectorAll('.rail__nav--prev').forEach(function (b) { b.innerHTML = window.GS.icons.chevL; });
   // document.querySelectorAll('.rail__nav--next').forEach(function (b) { b.innerHTML = window.GS.icons.chevR; });
 
-  window.addEventListener('load', function() {
-    if (window.GS && window.GS.initRail) {
-      document.querySelectorAll('[data-rail]').forEach(window.GS.initRail);
-      
-      if (window.GS.icons) {
-        document.querySelectorAll('.rail__nav--prev').forEach(function (b) { b.innerHTML = window.GS.icons.chevL; });
-        document.querySelectorAll('.rail__nav--next').forEach(function (b) { b.innerHTML = window.GS.icons.chevR; });
-      }
-    } else {
-      console.warn('GS library not found.');
-    }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1. Supply the missing custom icons manually
+    const icons = {
+      chevL: '<svg viewBox="0 0 16 16" fill="none" width="16" height="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 1 East L5 8l6 7"/></svg>',
+      chevR: '<svg viewBox="0 0 16 16" fill="none" width="16" height="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1l6 7-6 7"/></svg>'
+    };
+
+    // Inject icons into layout buttons
+    document.querySelectorAll('.rail__nav--prev').forEach(b => b.innerHTML = icons.chevL);
+    document.querySelectorAll('.rail__nav--next').forEach(b => b.innerHTML = icons.chevR);
+
+    // 2. Build the functional Carousel Track Slider
+    document.querySelectorAll('[data-rail]').forEach(rail => {
+      const track = rail.querySelector('.rail__track');
+      const prevBtn = rail.querySelector('.rail__nav--prev');
+      const nextBtn = rail.querySelector('.rail__nav--next');
+
+      if (!track || !prevBtn || !nextBtn) return;
+
+      // Scroll handlers
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: track.clientWidth * 0.75, behavior: 'smooth' });
+      });
+
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -track.clientWidth * 0.75, behavior: 'smooth' });
+      });
+
+      // Optional: Hide/Show navigation arrows based on layout scroll position boundaries
+      const toggleButtons = () => {
+        prevBtn.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
+        nextBtn.style.opacity = (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) ? '0.3' : '1';
+      };
+
+      track.addEventListener('scroll', toggleButtons);
+      window.addEventListener('resize', toggleButtons);
+      toggleButtons(); // Initial view run configuration setup
+    });
   });
 </script>
 @endpush
+
