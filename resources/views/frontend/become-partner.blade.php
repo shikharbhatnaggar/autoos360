@@ -69,13 +69,13 @@
               <input type="radio" name="selected_plan" value="free" {{ old('selected_plan', $activePlan) === 'free' ? 'checked' : '' }} onchange="toggleTierHighlight(this)">
               <span class="tier-card__name">Starter / Free</span>
               <span class="tier-card__price">₹0 <span>/ Year</span></span>
-              <span class="tier-card__meta">4% Closing Fee • 7 Cars Max</span>
+              <span class="tier-card__meta">6% Closing Fee • 7 Cars Max</span>
             </label>
 
             <label class="tier-card {{ old('selected_plan', $activePlan) === 'pkg2' ? 'is-active' : '' }}">
               <input type="radio" name="selected_plan" value="pkg2" {{ old('selected_plan', $activePlan) === 'pkg2' ? 'checked' : '' }} onchange="toggleTierHighlight(this)">
               <span class="tier-card__name">Pro Growth</span>
-              <span class="tier-card__price">₹7,200 <span>/ Year</span></span>
+              <span class="tier-card__price">₹8,400 <span>/ Year</span></span>
               <span class="tier-card__meta">3% Closing Fee • 30 Cars Max</span>
             </label>
 
@@ -83,7 +83,7 @@
               <input type="radio" name="selected_plan" value="pkg3" {{ old('selected_plan', $activePlan) === 'pkg3' ? 'checked' : '' }} onchange="toggleTierHighlight(this)">
               <span class="tier-card__name">Elite Pro</span>
               <span class="tier-card__price">₹24,000 <span>/ Year</span></span>
-              <span class="tier-card__meta">2% Closing Fee • Unlimited Cars</span>
+              <span class="tier-card__meta">1% Closing Fee • Unlimited Cars</span>
             </label>
 
           </div>

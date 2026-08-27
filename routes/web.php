@@ -34,6 +34,9 @@ Route::get('/showroom-scan/{slug}-{id}', [HomeController::class, 'vehicleInShowr
                                         ->name('frontend.showroom.scan')
                                         ->where('slug', '.*')        // Allows any alphanumeric characters and dashes
                                         ->where('id', '[0-9]+');     // Restricts the final parameter to integers only
+Route::get('/pricing', function () {
+    return View::make('frontend.pricing');
+})->name('frontend.pricing');
                                         
 /*
 |--------------------------------------------------------------------------

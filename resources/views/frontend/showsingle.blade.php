@@ -191,7 +191,7 @@
     // 2. Offline Showroom QR Engine Compiler Initialization Matrix
     var qrAnchor = document.getElementById('jsQrTarget');
     if (qrAnchor && typeof QRCode !== 'undefined') {
-        alert("{{ url('/showroom-scan/' . \Illuminate\Support\Str::slug($vehicle->model) . '-' . $vehicle->id) }}");
+        // alert("{{ url('/showroom-scan/' . \Illuminate\Support\Str::slug($vehicle->model) . '-' . $vehicle->id) }}");
       new QRCode(qrAnchor, {
         text: "{{ url('/showroom-scan/' . \Illuminate\Support\Str::slug($vehicle->model) . '-' . $vehicle->id) }}",
         width: 120,
