@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vehicle;
 use App\Models\Broker;
 use App\Models\VehicleDocument;
+use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -288,5 +289,15 @@ class DashboardController extends Controller
             'recentAvailable'    => $recentAvailable,
             'recentSold'         => $recentSold,
         ]);
+    }
+
+    public function leadsIndex()
+    {
+        $leads = Lead::where('tenant_id', tenant()->id)
+            ->with('vehicle') // Eager load relationships to prevent N+1 issues
+            ->latest()
+            ->get();
+
+        return view('leads.index', compact('leads'));
     }
 }

@@ -186,6 +186,20 @@
 
             </li>
 
+            <a href="{{ route('leads.index') }}" 
+            class="flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                <div class="flex items-center gap-3">
+                    <x-heroicon-o-user-plus class="w-5 h-5 text-gray-500"/>
+                    <span class="text-sm font-medium">Leads Dashboard</span>
+                </div>
+                
+                @if($newLeadsNotificationCount > 0)
+                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                        {{ $newLeadsNotificationCount }}
+                    </span>
+                @endif
+            </a>
+
         </ul>
 
     </nav>

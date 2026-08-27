@@ -271,7 +271,6 @@ class VehicleController extends Controller
         // Get the last 5 unique dates that contain data for this matching query scope
         $latestDates = (clone $query)
                         ->selectRaw('DATE(created_at) as date')
-                        ->reorder() 
                         ->groupBy('date')
                         ->orderBy('date', 'desc')
                         ->take(5)
