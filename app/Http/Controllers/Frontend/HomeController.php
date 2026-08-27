@@ -275,7 +275,7 @@ class HomeController extends Controller
         
         $vehicle->images_collection = collect($images)->map(function ($img) {
             return [
-                'path' => url('/storage/' . ($img['path'] ?? $img)),
+                'path' => 'https://shikharbhatnaggar.github.io/publicautoos360/'.$img['path'], //url('/storage/' . ($img['path'] ?? $img)),
                 'type' => ucfirst($img['type'] ?? 'General'),
                 'is_primary' => !empty($img['is_primary'])
             ];
