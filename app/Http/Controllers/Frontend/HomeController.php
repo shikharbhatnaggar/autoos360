@@ -325,7 +325,8 @@ class HomeController extends Controller
             $images = json_decode($images, true) ?? [];
         }
         $primaryImg = collect($images)->firstWhere('is_primary', true) ?? collect($images)->first();
-        $v->display_image = $primaryImg ? url('/storage/' . ($primaryImg['path'] ?? $primaryImg)) : url('/frontend/images/placeholder-car.jpg');
+        // $v->display_image = $primaryImg ? url('/storage/' . ($primaryImg['path'] ?? $primaryImg)) : url('/frontend/images/placeholder-car.jpg');
+        $v->display_image = 'https://shikharbhatnaggar.github.io/publicautoos360/'.$primaryImg['path'];
 
         return view('frontend.book-test-drive', compact('v'));
     }
@@ -394,7 +395,8 @@ class HomeController extends Controller
         foreach ($sortedImages as $img) {
             $path = is_array($img) ? ($img['path'] ?? '') : ($img->path ?? '');
             if (!empty($path)) {
-                $sliderImagesList[] = asset('storage/' . $path);
+                // $sliderImagesList[] = asset('storage/' . $path);
+                $sliderImagesList[] = 'https://shikharbhatnaggar.github.io/publicautoos360/'.$path;
             }
         }
 
