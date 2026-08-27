@@ -21,6 +21,7 @@
   --surface:  #FFFFFF;
   --bg:       #FFFFFF;
   --bg-alt:   #F6F6FB;
+  --ink-lite: #6c6d83;  
 
   /* accents */
   --green:    #12B76A;
@@ -54,7 +55,7 @@ body{
   font-family:var(--font-body);
   font-size:15px;
   line-height:1.55;
-  color:var(--ink);
+  color:var(--ink-lite);
   background:var(--bg);
   -webkit-font-smoothing:antialiased;
 }
@@ -362,7 +363,7 @@ ul{ margin:0; padding:0; list-style:none; }
 .partner__fact span{ font-size:12.5px; color:rgba(255,255,255,.76); }
 
 /* ---------- footer ---------- */
-.foot{ background:var(--bg-alt); border-top:1px solid var(--line); padding-block:48px 0; }
+.foot{ background: #101011; border-top: 5px solid #57596e; /*background:var(--bg-alt); border-top:1px solid var(--line);*/ padding-block:48px 0; }
 .foot__grid{ display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:34px; padding-bottom:38px; }
 .foot__brand .logo{ margin-bottom:14px; }
 .foot__tag{ font-family:var(--font-display); font-size:20px; font-weight:600; line-height:1.28; letter-spacing:-.02em; margin-bottom:14px; }
