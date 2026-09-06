@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Api\TenantController;
 use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\MetaWebhookController;
 
 Route::get(
     '/tenants/{tenant_uuid}/branches/{branch_id}/vehicles',
@@ -45,3 +46,5 @@ Route::post('/register-partner', [TenantController::class, 'register']);
 
 // Public test drive booking endpoint channel
 Route::post('/book-test-drive', [LeadController::class, 'store']);
+
+Route::match(['get', 'post'], '/webhook', [MetaWebhookController::class, 'handle']);
