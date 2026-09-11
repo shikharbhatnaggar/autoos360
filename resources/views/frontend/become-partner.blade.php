@@ -40,7 +40,7 @@
         </li>
         <li>
           <span class="partner-hero-card__check">✓</span>
-          <div><b>₹0 Initial Setup Fees</b> — Enjoy free unlimited inventory sync and multi-image storage uploads for your first 90 days.</div>
+          <div><b>₹1,299 Initial Setup Fees</b> — Enjoy free unlimited inventory sync and multi-image storage uploads for your first 90 days.</div>
         </li>
         <li>
           <span class="partner-hero-card__check">✓</span>

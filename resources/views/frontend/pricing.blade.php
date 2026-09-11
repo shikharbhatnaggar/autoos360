@@ -61,7 +61,7 @@
         <!-- Package 1: Free Tier -->
         <article class="pcard">
             <h2 class="pcard__name">Starter</h2>
-            <div class="pcard__price"><var>₹0</var> <span>/ Year</span></div>
+            <div class="pcard__price"><var>₹1,299</var> <span>/ Year</span></div>
             <ul class="pcard__features">
             <li><i>✓</i> <span><b>7 Cars</b> active listing capacity</span></li>
             <li><i>✓</i> <span><b>1 Shed</b> listing capacity</span></li>
